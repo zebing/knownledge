@@ -26,6 +26,10 @@ module.exports = {
         link: '/back/'
       },
       {
+        text: '客户端',
+        link: '/client/'
+      },
+      {
         text: '算法',
         link: '/algorithms/'
       },
@@ -92,7 +96,53 @@ module.exports = {
             ['nodejs/', '知识点'],
           ]
         },
-      ]
+      ],
+      '/client/': [
+        {
+          title: 'Flutter',
+          collapsable: true,
+          children: [
+            ['flutter/', '知识点'],
+          ]
+        },
+        {
+          title: 'react native',
+          collapsable: true,
+          children: [
+            ['react-native/', '知识点'],
+          ]
+        },
+        {
+          title: 'CEF & Electron',
+          collapsable: true,
+          children: [
+            ['CEF&Electron/', '知识点'],
+          ]
+        },
+        {
+          title: 'Hybrid',
+          collapsable: true,
+          children: [
+            ['hybrid/', '知识点'],
+          ]
+        },
+      ],
+      '/algorithms/': [
+        {
+          title: '数据类型',
+          collapsable: true,
+          children: [
+            ['structure/', '知识点'],
+          ]
+        },
+        {
+          title: '算法',
+          collapsable: true,
+          children: [
+            ['algorithms/', '知识点'],
+          ]
+        },
+      ],
     }
   }
 }
