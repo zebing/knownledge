@@ -87,6 +87,34 @@ module.exports = {
             ['react/', '知识点'],
           ]
         },
+        {
+          title: '设计模式',
+          collapsable: true,
+          children: [
+            ['design-pattern/', '知识点'],
+          ]
+        },
+        {
+          title: '安全',
+          collapsable: true,
+          children: [
+            ['safe/', '知识点'],
+          ]
+        },
+        {
+          title: '浏览器',
+          collapsable: true,
+          children: [
+            ['browser/', '知识点'],
+          ]
+        },
+        {
+          title: '网络',
+          collapsable: true,
+          children: [
+            ['network/', '知识点'],
+          ]
+        },
       ],
       '/back/': [
         {
