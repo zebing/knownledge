@@ -115,6 +115,13 @@ module.exports = {
             ['network/', '知识点'],
           ]
         },
+        {
+          title: '性能优化',
+          collapsable: true,
+          children: [
+            ['performance/', '知识点'],
+          ]
+        },
       ],
       '/back/': [
         {
