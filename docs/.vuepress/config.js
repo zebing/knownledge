@@ -122,6 +122,13 @@ module.exports = {
             ['performance/', '知识点'],
           ]
         },
+        {
+          title: 'Typescript',
+          collapsable: true,
+          children: [
+            ['typescript/', '知识点'],
+          ]
+        },
       ],
       '/back/': [
         {
