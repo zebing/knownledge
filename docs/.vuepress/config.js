@@ -127,6 +127,11 @@ module.exports = {
           collapsable: true,
           children: [
             'engineering/webpack',
+            'engineering/vite',
+            'engineering/rollup',
+            'engineering/esbuild',
+            'engineering/npm',
+            'engineering/git',
           ]
         },
         {
