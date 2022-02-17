@@ -141,6 +141,20 @@ module.exports = {
             ['typescript/', '知识点'],
           ]
         },
+        {
+          title: '部署',
+          collapsable: true,
+          children: [
+            ['deploy/', '知识点'],
+          ]
+        },
+        {
+          title: '监控',
+          collapsable: true,
+          children: [
+            ['monitor/', '知识点'],
+          ]
+        },
       ],
       '/back/': [
         {
