@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/',
+  base: '/knownledge',
   dest: 'docs',
   title: '个人知识库',
   description: 'Analysis vue.js deeply',
