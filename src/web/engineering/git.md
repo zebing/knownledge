@@ -1,5 +1,54 @@
 # Git
 
+## 配置多个ssh key
+当有多个git账号的时候，比如一个github，用于自己进行一些开发活动，再来一个gitlab，一般是公司内部的git。这两者你的邮箱如果不同的话，就会涉及到一个问题，生成第二个git的key的时候会覆盖第一个的key，导致必然有一个用不了。
+
+### 1. 生成账号
+```
+ssh-keygen -t rsa -f filename -C "name@qq.com"
+```
+-t type:指定要生成的密钥类型，有rsa1(SSH1),dsa(SSH2),ecdsa(SSH2),rsa(SSH2)等类型，较为常用的是rsa类型
+
+-C comment：提供一个新的注释
+
+ -b bits：指定要生成的密钥长度 (单位:bit)，对于RSA类型的密钥，最小长度768bits,默认长度为2048bits。DSA密钥必须是1024bits
+
+-f filename:指定生成的密钥文件名字
+
+ssh key生成之后，将 .pub 文件里的内容配置到git仓库
+
+### 2. 配置文件
+新建配置文件
+```
+touch config
+```
+然后按以下格式配置
+```
+# github
+Host github.com
+HostName github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/github
+User zebing
+# akulaku
+Host git.silvrr.com
+HostName git.silvrr.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/akulaku
+User fuzebing
+```
+### 3. 测试
+输入以下命令测试
+```
+ssh -T git@git.silvrr.com
+```
+初次连接会出现如下提示，请输入yes
+```
+The authenticity of host 'git.silvrr.com (52.74.45.60)' can't be established.
+ECDSA key fingerprint is SHA256:L1HNvdqRIKUVgB/YIQ7qgay9w6djnsNz+9X6NwlhuMY.
+Are you sure you want to continue connecting (yes/no)?
+```
+
 ## 创建版本库
 
 `git init`
@@ -84,3 +133,13 @@ fatal: refusing to merge unrelated histories
 ```
 git pull --allow-unrelated-histories
 ```
+
+## 查看提交历史
+
+```
+git log -p -2 // 一个常用的选项是 -p，用来显示每次提交的内容差异。 你也可以加上 -2 来仅显示最近两次提交：
+git log --stat // 每次提交的简略的统计信息，你可以使用 --stat 选项：
+git log --graph // 展示分支合并图
+```
+
+[2.3 Git 基础 - 查看提交历史](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2)
