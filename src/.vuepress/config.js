@@ -38,6 +38,10 @@ module.exports = {
         link: '/ubuntu/'
       },
       {
+        text: 'mac',
+        link: '/mac/'
+      },
+      {
         text: '业务',
         link: '/business/'
       },
@@ -208,6 +212,20 @@ module.exports = {
           collapsable: true,
           children: [
             ['algorithms/', '知识点'],
+          ]
+        },
+      ],
+      '/mac/': [
+        {
+          title: 'mac',
+          collapsable: true,
+          children: [
+            'mysql',
+            'nginx',
+            'php',
+            'phpadmin',
+            'redis',
+            'terminal_proxy',
           ]
         },
       ],
