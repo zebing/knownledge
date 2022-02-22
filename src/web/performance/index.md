@@ -62,7 +62,10 @@
 ### 应用环节优化
 <img :src="$withBase('/assets/640-5.webp')">
 
+**参考：**
+[万字长文：分享前端性能优化知识体系](https://mp.weixin.qq.com/s/WUKrZ0dQzMg_C_cXvHPnxA)
 
+[前端性能优化4大环节最佳实践与研发流程](https://mp.weixin.qq.com/s/FG0CTP6N7vF7UrLfhvGw5w)
 
 
 
