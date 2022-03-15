@@ -143,3 +143,16 @@ git log --graph // 展示分支合并图
 ```
 
 [2.3 Git 基础 - 查看提交历史](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2)
+
+
+## git 仓库嵌套
+在自己的仓库中clone了别人的demo，git add 无效。
+先在子仓库执行
+```dotnetcli
+rm -rf .git
+```
+然后在子仓库的父文件夹执行
+```dotnetcli
+git rm -rf --cached [子仓库文件夹名称]
+```
+
