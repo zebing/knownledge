@@ -34,6 +34,10 @@ module.exports = {
         link: '/algorithms/'
       },
       {
+        text: 'Rust',
+        link: '/rust/'
+      },
+      {
         text: 'ubuntu',
         link: '/ubuntu/'
       },
@@ -166,6 +170,7 @@ module.exports = {
           collapsable: true,
           children: [
             ['nodejs/', '知识点'],
+            'nodejs/express',
           ]
         },
       ],
@@ -226,6 +231,23 @@ module.exports = {
             'phpadmin',
             'redis',
             'terminal_proxy',
+          ]
+        },
+      ],
+      '/rust/': [
+        {
+          title: 'Rust',
+          collapsable: true,
+          children: [
+            ['rust/', '知识点']
+          ]
+        },
+        {
+          title: 'WebAssembly',
+          collapsable: true,
+          children: [
+            ['webassembly/', '知识点'],
+            'webassembly/start',
           ]
         },
       ],
