@@ -2,6 +2,7 @@
 
 ## 网络体系结构
 [网络体系结构 百度](https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82)
+![网络体系结构](./images/1612150605-NindRH-image.png)
 
 ### OSI体系结构
 [OSI 模型](https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B)
