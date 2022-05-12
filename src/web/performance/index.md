@@ -10,7 +10,8 @@
 
 ## 指标
 [指标 MDN](https://web.dev/metrics/)
-<img :src="$withBase('/assets/640.webp')">
+![指标](./images/640.jpg)
+
 
 ## Chrome DevTools
 
@@ -50,17 +51,17 @@
 前端性能优化有很多维度，我们可以归类为几个环节：构建环节、网络环节、渲染环节、应用环节。
 
 ### 构建环节优化
-<img :src="$withBase('/assets/640-1.webp')">
+![构建环节优化](./images/640-1.jpg)
 
 ### 网络环节优化
-<img :src="$withBase('/assets/640-2.webp')">
+![网络环节优化](./images/640-2.jpg)
 
 ### 渲染环节优化
-<img :src="$withBase('/assets/640-3.webp')">
-<img :src="$withBase('/assets/640-4.webp')">
+![渲染环节优化](./images/640-3.jpg)
+![渲染环节优化](./images/640-4.jpg)
 
 ### 应用环节优化
-<img :src="$withBase('/assets/640-5.webp')">
+![应用环节优化](./images/640-5.jpg)
 
 **参考：**
 
