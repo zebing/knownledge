@@ -13,4 +13,4 @@ jobs:
       uses: actions/checkout@master
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BUILD_SCRIPT: yarn && yarn deploy
+        BUILD_SCRIPT: npm install && npm run deploy
