@@ -13,7 +13,4 @@ jobs:
       uses: actions/checkout@master
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        TARGET_REPO: zebing/knownledge
-        TARGET_BRANCH: gh_pages
         BUILD_SCRIPT: yarn && yarn build
-        BUILD_DIR: blog/.vuepress/dist/
