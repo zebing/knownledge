@@ -49,10 +49,10 @@ module.exports = {
         text: '业务',
         link: '/business/'
       },
-      {
-        text: '管理',
-        link: '/management/'
-      },
+      // {
+      //   text: '管理',
+      //   link: '/management/'
+      // },
     ],
     sidebar: {
       '/web/': [
