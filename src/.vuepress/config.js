@@ -45,10 +45,10 @@ module.exports = {
         text: 'mac',
         link: '/mac/'
       },
-      {
-        text: '业务',
-        link: '/business/'
-      },
+      // {
+      //   text: '业务',
+      //   link: '/business/'
+      // },
       // {
       //   text: '管理',
       //   link: '/management/'
