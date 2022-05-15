@@ -16,3 +16,6 @@ jobs:
         REPRO: zebing/knownledge
 
     - run: npm run deploy:github
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        REPRO: zebing/knownledge
