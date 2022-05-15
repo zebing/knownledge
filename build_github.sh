@@ -35,7 +35,7 @@ DEPLOY_REPO="https://username:${ACCESS_TOKEN}@github.com/zebing/knownledge.git"
 
 git add .
 git commit -m "deploy"
-git push --force $DEPLOY_REPO master:gh_pages
+git push --force $DEPLOY_REPO master:pages
 rm -fr .git
 
 cd -
