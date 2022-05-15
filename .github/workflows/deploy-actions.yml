@@ -13,5 +13,5 @@ jobs:
       uses: actions/checkout@master
       env:
         ACCESS_TOKEN: ${{ secrets.NAME_KNOWNLEDGE }}
-    - run: npm install -g
+
     - run: npm run deploy:github
