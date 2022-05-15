@@ -1,4 +1,4 @@
-name: A TO A:GH_PAGES 
+name: Auto deploy github actions
 
 on:
   push:
@@ -6,17 +6,12 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  actions-tagger:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@master
-
-    - name: Build and Deploy
-      uses: zebing/knownledge@master
       env:
-        ACCESS_TOKEN: ${{ secrets.NAME_KNOWNLEDGE }}
-        TARGET_REPO: zebing/knownledge
-        TARGET_BRANCH: gh_pages
-        BUILD_SCRIPT: yarn && yarn build
-        BUILD_DIR: blog/.vuepress/dist/
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BUILD_SCRIPT: yarn install && yarn deploy:github
+        BUILD_DIR: dist
