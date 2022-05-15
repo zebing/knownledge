@@ -11,11 +11,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        REPRO: zebing/knownledge
 
     - run: npm run deploy:github
       env:
         ACCESS_TOKEN: ${{ secrets.NAME_KNOWNLEDGE }}
         REPRO: zebing/knownledge
+        BUILD_SCRIPT: npm i && npm run build
+        BUILD_DIR: dist
