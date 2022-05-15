@@ -1,4 +1,4 @@
-name: Auto deploy github actions
+name: A TO A:GH_PAGES
 
 on:
   push:
@@ -6,14 +6,14 @@ on:
       - master
 
 jobs:
-  actions-tagger:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@master
 
     - name: Build and Deploy
-      uses: actions/checkout@master
+      uses: zebing/knownledge@master
       env:
         ACCESS_TOKEN: ${{ secrets.NAME_KNOWNLEDGE }}
         TARGET_REPO: zebing/knownledge
