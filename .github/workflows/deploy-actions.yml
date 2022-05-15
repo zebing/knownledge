@@ -13,4 +13,5 @@ jobs:
       uses: actions/checkout@master
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BUILD_SCRIPT: npm install && npm run deploy
+    - run: npm install -g
+    - run: npm run deploy:github
