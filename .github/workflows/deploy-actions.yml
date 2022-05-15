@@ -11,7 +11,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
+
+    - name: Build and Deploy
+      uses: zebing/knownledge@master
       env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-    - run: npm install
-    - run: npm run deploy
+        ACCESS_TOKEN: ${{ secrets.NAME_KNOWNLEDGE }}
+        TARGET_REPO: zebing/knownledge
+        TARGET_BRANCH: gh_pages
+        BUILD_SCRIPT: yarn && yarn build
+        BUILD_DIR: blog/.vuepress/dist/
