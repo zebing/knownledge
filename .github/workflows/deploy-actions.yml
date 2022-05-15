@@ -12,6 +12,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
       env:
-        ACCESS_TOKEN: ${{ secrets.NAME_KNOWNLEDGE }}
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
     - run: npm run deploy:github
