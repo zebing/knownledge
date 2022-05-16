@@ -7,6 +7,7 @@ module.exports = (options, ctx) => {
   const slideConfig = mdPaths.reduce((obj, path) => {
     const pathArr = path.replace('src/', '').split('/');
     pathArr[0] = `/${pathArr[0]}/`;
+    pathArr[1] = pathArr[1].replace(/^[0-9]+_/gi, '');
     if (pathArr[pathArr.length - 1] === 'index.md') {
       pathArr[pathArr.length - 1] = ''
     }
