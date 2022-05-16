@@ -156,3 +156,8 @@ rm -rf .git
 git rm -rf --cached [子仓库文件夹名称]
 ```
 
+## git tag 按时间排序
+```
+git tag --sort=-creatordate
+```
+
