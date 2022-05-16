@@ -1,4 +1,7 @@
 module.exports = {
+  plugins: [
+    require('../../plugins/auto_sidebar.js')
+  ],
   base: '/knownledge/',
   dest: 'dist',
   title: '个人知识库',
