@@ -14,3 +14,10 @@ sudo chmod -R a+rwx /usr/local/var/mysql
 ```
 alter user 'root'@'localhost'IDENTIFIED BY '密码';
 ```
+
+## 3 命令
+```
+brew services start mysql
+brew services restart mysql
+brew services stop mysql
+```
