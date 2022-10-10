@@ -16,7 +16,7 @@ module.exports = {
   themeConfig: {
     repo: 'zebing/knownledge',
     editLinks: true,
-    docsDir: 'docs',
+    docsDir: 'src',
     editLinkText: '在 GitHub 上编辑此页',
     lastUpdated: '上次更新',
     nav: [
