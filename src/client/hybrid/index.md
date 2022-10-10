@@ -38,10 +38,14 @@ native调用JS
 
 **WKWebView**
 
-JS调用native
+JS调用native `window.webkit.messageHandlers.[methods].postMessage("Hello, world!");`
 1. addScriptMessageHandler
 2. URL拦截方式
 
 native调用JS
 1. JavaScriptCore evaluateJavaScript
+
+**参考**
+
+[wkwebview addScriptMessageHandler:name](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/1537172-addscriptmessagehandler?language=objc)
 
