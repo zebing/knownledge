@@ -17,6 +17,9 @@ setTimeout 默认回调时间最短是4毫秒，导致浪费4毫秒时间。
 2. 如果 newChildren 已经到达末尾，delete 所有 oldChildren 余下节点。
 3. 如果 oldChildren 到达末尾，create 所有 newChildren 余下节点。
 4. newChildren 和 oldChildren 都没到达末尾。
+
    4.1. 将 oldChildren 余下节点生成 key - index map。 existingChildren。
+   
    4.2. 遍历 newChildren 余下节点。key 在 oldChildren 存在则 patch, 并从 existingChildren map 中移除, 不存在则 create。
+   
    4.3. delete 所有 existingChildren 余下节点。
