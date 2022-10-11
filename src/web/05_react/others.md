@@ -11,4 +11,4 @@ setTimeout 默认回调时间最短是4毫秒，导致浪费4毫秒时间。
 [链接](https://segmentfault.com/a/1190000040973864)
 
 ## react diff
-[传送门](reconcileChildrenArray)
+[传送门]([reconcileChildrenArray](https://github.com/facebook/react/blob/aa9988e5e669122ed0d76c72f2dea159eef872b4/packages/react-reconciler/src/ReactChildFiber.new.js#L750))
