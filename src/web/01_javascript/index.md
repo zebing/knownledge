@@ -1029,12 +1029,14 @@ function getData() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve('data');
-    }, 1000);
+    }, 300);
   });
 }
 
 async function test() {
-  return await getData();
+  const value1 = await getData();
+  const value2 = await getData();
+  return `value1: ${value1}, value2: ${value2}`;
 }
 
 test().then((res) => {
@@ -1043,19 +1045,20 @@ test().then((res) => {
 ```
 自码demo
 ```
-function getData() {
+function getData(i) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve('data');
+      resolve('data' + i);
     }, 1000);
   });
 }
 
-function* generator () {
-  yield getData();
-  yield getData();
+function* generator (i) {
+  const value = yield getData(i + 1);
+  const value2 = yield getData(i + 2);
+  return value2;
 }
-const gen = generator();
+const gen = generator(1);
 console.log(gen.next().value.then((res) => console.log('value: ', res)))
 console.log(gen.next().value.then((res) => console.log('value: ', res)))
 console.log(gen.next())
