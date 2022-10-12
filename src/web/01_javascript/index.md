@@ -1057,8 +1057,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     resolve(value);
   } else {
     if (value instanceof Promise) {
-      value.then((res) => {
-      })
       value.then(_next, _throw)
     } else {
       Promise.resolve(value).then(_next, _throw);
