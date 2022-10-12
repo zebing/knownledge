@@ -1025,35 +1025,40 @@ console.log(iterator.next())	// {value: undefined, done: true}
 
 示例
 ```
-async function getData() {
-  return 'data';
+function getData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('data');
+    }, 1000);
+  });
 }
 
 async function test() {
-	const data = await getData();
-  
-  return data
+  return await getData();
 }
 
-test();
+test().then((res) => {
+  console.log(res)
+})
 ```
 自码demo
 ```
-function* generator () {
-  const data = yield getData();
-  const data1 = yield getData();
-  return data;
-}
-function test() {
-  return new Promise((resolve, reject) => {
-    const gen = generator();
-    let step = gen.next();
-    while (!step.done) {
-      step = gen.next();
-    }
-    resolve(step.value);
+function getData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('data');
+    }, 1000);
   });
 }
+
+function* generator () {
+  yield getData();
+  yield getData();
+}
+const gen = generator();
+console.log(gen.next().value.then((res) => console.log('value: ', res)))
+console.log(gen.next().value.then((res) => console.log('value: ', res)))
+console.log(gen.next())
 ```
 babel生成
 
