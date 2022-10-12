@@ -1043,25 +1043,66 @@ test().then((res) => {
   console.log(res)
 })
 ```
-自码demo
+转换成 generator 
 ```
-function getData(i) {
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch(error) {
+    reject(error);
+    return;
+  }
+  if (info.done) {
+    resolve(value);
+  } else {
+    if (value instanceof Promise) {
+      value.then((res) => {
+      })
+      value.then(_next, _throw)
+    } else {
+      Promise.resolve(value).then(_next, _throw);
+    }
+  }
+}
+function _asyncToGenerator(fn) {
+  return function() {
+    var self = this,
+    args = arguments;
+    return new Promise(function(resolve, reject) {
+      var gen = fn.apply(self, args);
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+      _next(undefined);
+    });
+  };
+}
+
+function getData() {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve('data' + i);
-    }, 1000);
+      resolve('data');
+    }, 300);
   });
 }
 
-function* generator (i) {
-  const value = yield getData(i + 1);
-  const value2 = yield getData(i + 2);
-  return value2;
+function* generator() {
+  const value1 = yield getData();
+  const value2 = yield getData();
+  return `value1: ${value1}, value2: ${value2}`;
 }
-const gen = generator(1);
-console.log(gen.next().value.then((res) => console.log('value: ', res)))
-console.log(gen.next().value.then((res) => console.log('value: ', res)))
-console.log(gen.next())
+
+function test() {
+  return  _asyncToGenerator(generator)();
+}
+
+test().then((res) => {
+  console.log('res', res)
+})
 ```
 babel生成
 
