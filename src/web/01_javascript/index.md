@@ -1047,27 +1047,23 @@ test().then((res) => {
 ```
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
-    var info = gen[key](arg);
+    var info = gen[key](arg); 
     var value = info.value;
-  } catch(error) {
+    console.log(info)
+  } catch (error) {
     reject(error);
     return;
   }
   if (info.done) {
     resolve(value);
   } else {
-    if (value instanceof Promise) {
-      value.then(_next, _throw)
-    } else {
-      Promise.resolve(value).then(_next, _throw);
-    }
+    Promise.resolve(value).then(_next, _throw);
   }
 }
 function _asyncToGenerator(fn) {
-  return function() {
-    var self = this,
-    args = arguments;
-    return new Promise(function(resolve, reject) {
+  return function () {
+    var self = this, args = arguments;
+    return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
       function _next(value) {
         asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
@@ -1079,28 +1075,24 @@ function _asyncToGenerator(fn) {
     });
   };
 }
-
 function getData() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve('data');
     }, 300);
   });
 }
-
-function* generator() {
-  const value1 = yield getData();
-  const value2 = yield getData();
-  return `value1: ${value1}, value2: ${value2}`;
-}
-
 function test() {
-  return  _asyncToGenerator(generator)();
+  return _asyncToGenerator(function* () {
+    const value1 = yield getData();
+    const value2 = yield getData();
+    return `value1: ${value1}, value2: ${value2}`;
+  })(this, arguments);
 }
 
-test().then((res) => {
-  console.log('res', res)
-})
+test().then(res => {
+  console.log(res);
+});
 ```
 babel生成
 
