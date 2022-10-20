@@ -968,25 +968,17 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 function* 这种声明方式(function关键字后跟一个星号）会定义一个生成器函数 (generator function)，它返回一个  Generator  对象。
 
 ```
-function* anotherGenerator(i) {
+function* generator(i){
   yield i + 1;
   yield i + 2;
-  yield i + 3;
-}
-
-function* generator(i){
-  yield i;
-  yield* anotherGenerator(i);// 移交执行权
-  yield i + 10;
+  return i + 3;
 }
 
 var gen = generator(10);
 
 console.log(gen.next().value); // 10
 console.log(gen.next().value); // 11
-console.log(gen.next().value); // 12
 console.log(gen.next().value); // 13
-console.log(gen.next().value); // 20
 ```
 
 **源码实现**
