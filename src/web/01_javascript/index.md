@@ -976,35 +976,71 @@ function* generator(i){
 
 var gen = generator(10);
 
-console.log(gen.next().value); // 10
 console.log(gen.next().value); // 11
+console.log(gen.next().value); // 12
 console.log(gen.next().value); // 13
 ```
 
 **源码实现**
 ```
 // 源码实现
-function createIterator(items) {
-    var i = 0
-    return {
-        next: function() {
-            var done = (i >= items.length)
-            var value = !done ? items[i++] : undefined
-            
-            return {
-                done: done,
-                value: value
-            }
-        }
+function regeneratorRuntime() {
+  const ctx = {
+    next: 0,
+    done: false, // 表示迭代器没有执行完毕
+    stop() {
+      ctx.done = true;
+    },
+    sent: null, // 用于接收用户传递的值
+    abrupt(next, val) {
+      ctx.next = next;
+      return val
     }
+  }
+
+  return {
+    mark(genFn) {
+      return genFn
+    },
+    wrap(generator) {
+      return {
+        next(val) {
+          ctx.sent = val;
+          let value = generator(ctx);
+          return {
+            value: value,
+            done: ctx.done
+          }
+        }
+      }
+    }
+  }
 }
 
-// 应用
-const iterator = createIterator([1, 2, 3])
-console.log(iterator.next())	// {value: 1, done: false}
-console.log(iterator.next())	// {value: 2, done: false}
-console.log(iterator.next())	// {value: 3, done: false}
-console.log(iterator.next())	// {value: undefined, done: true}
+function generator(i) {
+  return regeneratorRuntime().wrap(function generator$(_context) {
+    while (1) {
+      switch ((_context.prev = _context.next)) {
+        case 0:
+          _context.next = 2;
+          return i + 1;
+        case 2:
+          _context.next = 4;
+          return i + 2;
+        case 4:
+          return _context.abrupt("return", i + 3);
+        case 5:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+}
+var gen = generator(10);
+console.log(gen.next().value); // 11
+console.log(gen.next().value); // 12
+console.log(gen.next().value); // 13
+
 ```
 
 **参考**
