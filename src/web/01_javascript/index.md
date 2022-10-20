@@ -983,17 +983,17 @@ console.log(gen.next().value); // 13
 
 **源码实现**
 ```
-// 源码实现
-function regeneratorRuntime() {
+function _regeneratorRuntime() {
   const ctx = {
     next: 0,
     done: false, // 表示迭代器没有执行完毕
     stop() {
       ctx.done = true;
+      return ctx.sent;
     },
     sent: null, // 用于接收用户传递的值
     abrupt(next, val) {
-      ctx.next = next;
+      ctx.next = 'end';
       return val
     }
   }
@@ -1018,7 +1018,7 @@ function regeneratorRuntime() {
 }
 
 function generator(i) {
-  return regeneratorRuntime().wrap(function generator$(_context) {
+  return _regeneratorRuntime().wrap(function generator$(_context) {
     while (1) {
       switch ((_context.prev = _context.next)) {
         case 0:
