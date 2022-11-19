@@ -1144,51 +1144,79 @@ function resolutionProcedure(promise2, x, resolve, reject) {
 function* 这种声明方式(function关键字后跟一个星号）会定义一个生成器函数 (generator function)，它返回一个  Generator  对象。
 
 ```
-function* anotherGenerator(i) {
+function* generator(i){
   yield i + 1;
   yield i + 2;
-  yield i + 3;
-}
-
-function* generator(i){
-  yield i;
-  yield* anotherGenerator(i);// 移交执行权
-  yield i + 10;
+  return i + 3;
 }
 
 var gen = generator(10);
 
-console.log(gen.next().value); // 10
 console.log(gen.next().value); // 11
 console.log(gen.next().value); // 12
 console.log(gen.next().value); // 13
-console.log(gen.next().value); // 20
 ```
 
 **源码实现**
 ```
-// 源码实现
-function createIterator(items) {
-    var i = 0
-    return {
-        next: function() {
-            var done = (i >= items.length)
-            var value = !done ? items[i++] : undefined
-            
-            return {
-                done: done,
-                value: value
-            }
-        }
+function _regeneratorRuntime() {
+  const ctx = {
+    next: 0,
+    done: false, // 表示迭代器没有执行完毕
+    stop() {
+      ctx.done = true;
+      return ctx.sent;
+    },
+    sent: null, // 用于接收用户传递的值
+    abrupt(next, val) {
+      ctx.next = 'end';
+      return val
     }
+  }
+
+  return {
+    mark(genFn) {
+      return genFn
+    },
+    wrap(generator) {
+      return {
+        next(val) {
+          ctx.sent = val;
+          let value = generator(ctx);
+          return {
+            value: value,
+            done: ctx.done
+          }
+        }
+      }
+    }
+  }
 }
 
-// 应用
-const iterator = createIterator([1, 2, 3])
-console.log(iterator.next())	// {value: 1, done: false}
-console.log(iterator.next())	// {value: 2, done: false}
-console.log(iterator.next())	// {value: 3, done: false}
-console.log(iterator.next())	// {value: undefined, done: true}
+function generator(i) {
+  return _regeneratorRuntime().wrap(function generator$(_context) {
+    while (1) {
+      switch ((_context.prev = _context.next)) {
+        case 0:
+          _context.next = 2;
+          return i + 1;
+        case 2:
+          _context.next = 4;
+          return i + 2;
+        case 4:
+          return _context.abrupt("return", i + 3);
+        case 5:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+}
+var gen = generator(10);
+console.log(gen.next().value); // 11
+console.log(gen.next().value); // 12
+console.log(gen.next().value); // 13
+
 ```
 
 **参考**
@@ -1201,44 +1229,32 @@ console.log(iterator.next())	// {value: undefined, done: true}
 
 示例
 ```
-async function getData() {
-  return 'data';
+function getData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('data');
+    }, 300);
+  });
 }
 
 async function test() {
-	const data = await getData();
-  
-  return data
+  const value1 = await getData();
+  const value2 = await getData();
+  return `value1: ${value1}, value2: ${value2}`;
 }
 
-test();
+test().then((res) => {
+  console.log(res)
+})
 ```
-自码demo
-```
-function* generator () {
-  const data = yield getData();
-  const data1 = yield getData();
-  return data;
-}
-function test() {
-  return new Promise((resolve, reject) => {
-    const gen = generator();
-    let step = gen.next();
-    while (!step.done) {
-      step = gen.next();
-    }
-    resolve(step.value);
-  });
-}
-```
-babel生成
-
+babel generator 
 ```
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
-    var info = gen[key](arg);
+    var info = gen[key](arg); 
     var value = info.value;
-  } catch(error) {
+    console.log(info)
+  } catch (error) {
     reject(error);
     return;
   }
@@ -1248,12 +1264,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     Promise.resolve(value).then(_next, _throw);
   }
 }
-
 function _asyncToGenerator(fn) {
-  return function() {
-    var self = this,
-    args = arguments;
-    return new Promise(function(resolve, reject) {
+  return function () {
+    var self = this, args = arguments;
+    return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
       function _next(value) {
         asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
@@ -1265,31 +1279,135 @@ function _asyncToGenerator(fn) {
     });
   };
 }
-
 function getData() {
-  return _getData.apply(this, arguments);
-}
-
-function _getData() {
-  _getData = _asyncToGenerator(function * () {
-    return 'data';
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('data');
+    }, 300);
   });
-  return _getData.apply(this, arguments);
+}
+function test() {
+  return _asyncToGenerator(function* () {
+    const value1 = yield getData();
+    const value2 = yield getData();
+    return `value1: ${value1}, value2: ${value2}`;
+  })(this, arguments);
 }
 
+test().then(res => {
+  console.log(res);
+});
+```
+手写
+
+```
+function _regeneratorRuntime() {
+  const ctx = {
+    next: 0,
+    done: false, // 表示迭代器没有执行完毕
+    stop() {
+      ctx.done = true;
+      return ctx.sent;
+    },
+    sent: null, // 用于接收用户传递的值
+    abrupt(next, val) {
+      ctx.next = 'end';
+      return val
+    }
+  }
+
+  return {
+    mark(genFn) {
+      return genFn
+    },
+    wrap(generator) {
+      return {
+        next(val) {
+          ctx.sent = val;
+          let value = generator(ctx);
+          return {
+            value: value,
+            done: ctx.done
+          }
+        }
+      }
+    }
+  }
+}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+      args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+      _next(undefined);
+    });
+  };
+}
+function getData() {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve("data");
+    }, 300);
+  });
+}
 function test() {
   return _test.apply(this, arguments);
 }
-
 function _test() {
-  _test = _asyncToGenerator(function * () {
-    const data = yield getData();
-    return data;
-  });
+  _test = _asyncToGenerator(
+    _regeneratorRuntime().mark(function _callee() {
+      var value1, value2;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) {
+          switch ((_context.prev = _context.next)) {
+            case 0:
+              _context.next = 2;
+              return getData();
+            case 2:
+              value1 = _context.sent;
+              _context.next = 5;
+              return getData();
+            case 5:
+              value2 = _context.sent;
+              return _context.abrupt(
+                "return",
+                "value1: ".concat(value1, ", value2: ").concat(value2)
+              );
+            case 7:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })
+  );
   return _test.apply(this, arguments);
 }
+test().then(function (res) {
+  console.log(res);
+});
 
-test();
 ```
 
 ## proxy

@@ -2,6 +2,8 @@
 h5跟原生页面进行交互，调用原生提供的方法。
 
 ## android
+[android WebView docs](https://developer.android.com/reference/android/webkit/WebView#addJavascriptInterface(java.lang.Object,%20java.lang.String))
+
 **h5调用原生**
 
 通过 ```addJavascriptInterface```方法将原生对象注入window，然后h5通过window[注入对象属性名][调用的方法]
@@ -36,10 +38,14 @@ native调用JS
 
 **WKWebView**
 
-JS调用native
+JS调用native `window.webkit.messageHandlers.[methods].postMessage("Hello, world!");`
 1. addScriptMessageHandler
 2. URL拦截方式
 
 native调用JS
 1. JavaScriptCore evaluateJavaScript
+
+**参考**
+
+[wkwebview addScriptMessageHandler:name](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/1537172-addscriptmessagehandler?language=objc)
 
