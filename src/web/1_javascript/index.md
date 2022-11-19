@@ -585,10 +585,186 @@ CMD推崇依赖就近，AMD推崇依赖前置。
 
 **ES Module与CommonJS:**
 
-CommonJS模块是对象，是运行时加载，运行时才把模块挂载在exports之上（加载整个模块的所有），加载模块其实就是查找对象属性。
-ES Module不是对象，是使用export显示指定输出，再通过import输入。此法为编译时加载，编译时遇到import就会生成一个只读引用。等到运行时就会根据此引用去被加载的模块取值。所以不会加载模块所有方法，仅取所需。
-CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
-CommonJS 模块是运行时加载，ES6 模块是编译时输出接口
+1. **语法不同**
+
+commonjs是module.exports，exports导出，require导入。ES6则是export导出，import导入。
+
+2. **是否存在提升**
+
+ES module在编译期间会将所有import提升到顶部，commonjs不会提升require。
+```
+foo()
+
+import { foo } from 'module'
+```
+这代码并不会报错，因为import会被提升到文件顶部。
+
+3. **是否支持动态加载**
+
+commonjs是运行时加载模块，支持动态加载。ES6是在静态编译期间就确定模块的依赖，不支持动态加载。
+```
+// 报错
+import { 'f' + 'oo' } from 'module'
+
+// 报错
+let module = 'module'
+import { foo } from module
+
+// 报错
+if (x === 1) {
+  import { foo } from 'module1'
+} else {
+  import { foo } from 'module2'
+}
+```
+由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。
+但ES2020提案引入import()函数，支持动态加载模块。
+import()函数接受一个参数specifier，为所要加载的模块的位置，返回一个 promise。
+import()类似于Node的require方法，区别主要是前者是异步加载，后者是同步加载。
+看个例子：
+```
+// main.js
+function init() {
+  const canvas = 'canvas'
+  
+  // 使用import函数
+  import(`./modules/${canvas}.js`).then((module) => {
+    console.log(module.default)
+  })
+}
+
+init()
+
+// canvas.js
+console.log('canvas.js开始执行')
+
+export default 'canvas'
+```
+4. **导出值**
+
+commonjs导出的是一个值拷贝，会对加载结果进行缓存，一旦内部再修改这个值，则不会同步到外部。比如：
+```
+// a.js
+// 第一次require之后就缓存了done
+const { done } = require('./b.js')
+
+console.log(done)
+
+setTimeout(() => {
+  console.log(done)
+}, 500)
+
+// b.js
+var done = false
+
+setTimeout(() => {
+  done = true
+}, 500)
+
+exports.done = done
+```
+执行node a.js，两次打印结果应该都是false
+ES6是导出的一个引用，内部修改可以同步到外部。看一个之前的例子：
+```
+// a.js
+export var foo = 'bar'
+
+setTimeout(() => foo = 'baz', 500)
+复制代码
+// index.js
+import { foo } from './a.js'
+
+console.log(foo)
+
+setTimeout(() => console.log(foo), 500)
+```
+根据ES module的特性，开始执行时输出bar，0.5秒后输出 baz。
+
+5. **this指向**
+
+commonjs中顶层的this指向这个模块本身，而ES6中顶层this指向undefined。
+因为ES module采用严格模式，严格模式禁止this指向全局对象。
+
+6. **循环加载的处理**
+
+由于之前五个不同点，导致commonjs和es module在处理循环加载时的表现不同。可以参考这篇文章
+
+6.1.  **CommonJs的表现**
+
+根据 6.4 ，在commonjs中，代码在require的时就会全部执行，然后在内存生成一个对象，内部修改不会同步到外部。一旦出现某个模块被"循环加载"，就只输出已经执行的部分，还未执行的部分不会输出。
+比如可以运行如下例子：
+```
+// mian.js
+var a = require('./a.js')
+
+var b = require('./b.js')
+
+// 在 main.js 之中, a.done=true, b.done=true
+console.log('在 main.js 之中, a.done=%j, b.done=%j', a.done, b.done)
+
+// a.js
+exports.done = false
+
+console.log('a 开始执行')
+
+var b = require('./b.js')
+
+// 在 a.js 之中，b.done = true
+console.log('在 a.js 之中，b.done = %j', b.done)
+
+exports.done = true
+
+console.log('a.js 执行完毕')
+
+// b.js
+exports.done = false
+
+// 返回a.js已经执行的部分，此时done为false
+var a = require('./a.js')
+
+// 在 b.js 之中，a.done = false
+console.log('在 b.js 之中，a.done = %j', a.done)
+
+exports.done = true
+
+console.log('b.js 执行完毕')
+```
+6.2. **ES module的表现**
+
+在ES module中，import存在提升，且导出值是只是一个引用，等到真的需要用到时，会再去模块里面去取值。比如导出一个变量，内部修改会影响外部。
+可以运行这个例子：
+```
+// a.js
+console.log('执行a.js')
+
+// import会被提升到顶部
+import { bar } from './b.js'
+
+export function foo() {
+  bar()
+  console.log('执行完毕')
+}
+
+foo()
+
+console.log('a.js执行完毕')
+
+// b.js
+console.log('执行b.js')
+
+import { foo } from './a.js'
+
+export function bar() {  
+  if (Math.random() > 0.5) {
+    foo()
+  }
+}
+
+console.log('b.js执行完毕')
+```
+执行a.js，输出结果应该类型于
+
+“执行b.js” “b.js执行完毕” “执行a.js” “执行完毕” “a.js执行完毕”四种输出的顺序是固定的，但“执行完毕”的输出次数不定
 
 
 **CommonJS与AMD/CMD:**
