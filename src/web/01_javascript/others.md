@@ -118,3 +118,6 @@ String.prototype.trim = function () {
 
 ## 从输入链接到展示页面的过程
 [渲染页面：浏览器的工作原理 MDN](https://developer.mozilla.org/zh-CN/docs/Web/Performance/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86)
+
+## 隐式调用toString和valueOf的场景
+[隐式调用toString和valueOf的场景，你认为对吗](https://juejin.cn/post/7041487859441729550)
