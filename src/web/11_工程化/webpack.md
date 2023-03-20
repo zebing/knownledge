@@ -79,4 +79,26 @@ webpack 负责对代码进行标记，把import & export 标记为3类：
 3. 未被使用过的 import 标记为 /* unused harmony export [FuncName] */，其中[FuncName] 为export 的方法名称
 
 ### 使用 terser 删除无用代码
+[terser](https://www.npmjs.com/package/terser)
+
+### webpack 如何识别未被使用变量
+[binding 参考](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#bindings)
+
+通过babel travers，通过 作用域 scope binding referenced 判断
+单个绑定如下所示：
+```
+{
+  identifier: node,
+  scope: scope,
+  path: path,
+  kind: 'var',
+
+  referenced: true,
+  references: 3,
+  referencePaths: [path, path, path],
+
+  constant: false,
+  constantViolations: [path]
+}
+```
 
