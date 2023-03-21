@@ -63,18 +63,17 @@
  * @return {ListNode}
  */
 var removeElements = function(head, val) {
-  let root = new ListNode(val - 1, head);
-  head = root;
+  let root = head = new ListNode(val - 1, head);
 
-  while(head.next) {
-    if (head.next.val === val) {
-      head.next = head.next.next;
+  while(root.next) {
+    if (root.next.val === val) {
+      root.next = root.next.next;
     } else {
-      head = head.next;
+      root = root.next;
     }
   }
 
-  return root.next;
+  return head.next;
 };
 // @lc code=end
 
