@@ -55,11 +55,43 @@
  * }
  */
 /**
- * @param {ListNode} head
+ * @param {ListNode} head∂
  * @return {boolean}
  */
-var isPalindrome = function(head) {
+const reverseList = (head) => {
+  let node = null;
 
+  while(head) {
+    const temp = head;
+    head = head.next;
+    temp.next = node;
+    node = temp;
+  }
+
+  return node;
+}
+
+var isPalindrome = function(head) {
+  let slow = head;
+  let fast = head;
+
+  while(fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  let newHead = reverseList(slow);
+
+  while(head && newHead) {
+    if (head.val !== newHead.val) {
+      return false;
+    }
+
+    head = head.next;
+    newHead = newHead.next;
+  }
+
+  return true;
 };
 // @lc code=end
 
