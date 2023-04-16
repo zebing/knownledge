@@ -8,7 +8,7 @@ npm install pm2@latest -g
 ## 配置文件
 [配置文件](https://pm2.keymetrics.io/docs/usage/application-declaration/)
 
-使用pm2 start pm2.config.js --env production，它将使用属性env_ <name>，其中name是此处的production，因此它将使用NODE_ENV = production启动您的应用程序。
+使用pm2 start pm2.config.js --env production，它将使用属性env，其中name是此处的production，因此它将使用NODE_ENV = production启动您的应用程序。
 
 ```
 module.exports = {

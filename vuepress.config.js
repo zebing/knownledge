@@ -1,8 +1,11 @@
-module.exports = {
-  plugins: [
-    require('../../plugins/auto_sidebar.js')
-  ],
+import { defineUserConfig, defaultTheme } from 'vuepress'
+import autoSidebar from './plugins/auto_sidebar';
+import path from 'path';
+
+export default defineUserConfig({
+  plugins: [],
   base: '/knownledge/',
+  public: path.resolve(process.cwd(), 'public'),
   dest: 'dist',
   title: '个人知识库',
   description: 'Analysis vue.js deeply',
@@ -13,13 +16,8 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
   ],
   serviceWorker: false,
-  themeConfig: {
-    repo: 'zebing/knownledge',
-    editLinks: true,
-    docsDir: 'src',
-    editLinkText: '在 GitHub 上编辑此页',
-    lastUpdated: '上次更新',
-    nav: [
+  theme: defaultTheme({
+    navbar: [
       {
         text: "前端",
 				link: '/web/'
@@ -57,6 +55,6 @@ module.exports = {
       //   link: '/management/'
       // },
     ],
-    sidebar: {}
-  }
-}
+    sidebar: autoSidebar,
+  }),
+})
