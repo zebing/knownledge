@@ -82,3 +82,9 @@
 
 ## 为什么Vue 2.0 中的v-if和v-for不建议一起用
 永远不要把 v-if 和 v-for 同时用在同一个元素上，带来性能方面的浪费（每次渲染都会先循环再进行条件判断）
+
+## Proxy 和 Object.defineProperty 的区别
+
+1. **Proxy 监听类型比 Object.defineProperty 更丰富** Object.defineProperty 只能对单个属性进行监听，Proxy 支持 数组，对象，函数等类型。
+2. **监听对原对象的影响** Object.defineProperty 会修改原数据， Proxy不会。
+
