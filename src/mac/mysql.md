@@ -12,7 +12,10 @@ sudo chmod -R a+rwx /usr/local/var/mysql
 ```
 ## 2. mysql 8.0 版本修改root密码
 ```
-alter user 'root'@'localhost'IDENTIFIED BY '密码';
+brew install mysql
+brew services start mysql
+sudo mysql_secure_installation
+
 ```
 
 ## 3 命令
