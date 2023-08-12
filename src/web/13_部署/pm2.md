@@ -83,5 +83,8 @@ pm2 start app.js --no-vizion
 pm2 start app.js --no-autorestart
 ```
 
+## pm2 集群 - 不停机更新
+[Cluster Mode](https://pm2.keymetrics.io/docs/usage/cluster-mode/)
+
 ## docker-pm2
 [文档](https://pm2.keymetrics.io/docs/usage/docker-pm2-nodejs/)
