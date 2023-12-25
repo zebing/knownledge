@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-373e4f75","path":"/web/02_css3/rem.html","title":"rem 适配","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1703490609000,"contributors":[{"name":"zebing","email":"1270105911@qq.com","commits":1}]},"filePathRelative":"web/02_css3/rem.md"}');export{e as data};

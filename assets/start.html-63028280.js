@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-576efcc4","path":"/rust/webassembly/start.html","title":"起步","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1703490609000,"contributors":[{"name":"zebing","email":"1270105911@qq.com","commits":1}]},"filePathRelative":"rust/webassembly/start.md"}');export{t as data};

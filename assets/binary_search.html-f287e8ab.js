@@ -1,0 +1,1 @@
+import{_ as a,p as t,q as r,R as e,t as c}from"./framework-5866ffd3.js";const s={},n=e("h1",{id:"二分查找",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#二分查找","aria-hidden":"true"},"#"),c(" 二分查找")],-1),_=[n];function o(d,i){return t(),r("div",null,_)}const l=a(s,[["render",o],["__file","binary_search.html.vue"]]);export{l as default};

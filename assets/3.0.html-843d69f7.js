@@ -1,0 +1,47 @@
+import{_ as a,M as r,p as l,q as c,R as e,t as n,N as d,a1 as s}from"./framework-5866ffd3.js";const t={},o=e("h1",{id:"vue-3-0",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#vue-3-0","aria-hidden":"true"},"#"),n(" vue 3.0")],-1),v={href:"https://vue3js.cn/",target:"_blank",rel:"noopener noreferrer"},u=e("h2",{id:"组合式api",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#组合式api","aria-hidden":"true"},"#"),n(" 组合式API")],-1),m={href:"https://vue3js.cn/vue-composition/",target:"_blank",rel:"noopener noreferrer"},b=s('<h3 id="动机与目的" tabindex="-1"><a class="header-anchor" href="#动机与目的" aria-hidden="true">#</a> 动机与目的</h3><h4 id="更好的逻辑复用与代码组织" tabindex="-1"><a class="header-anchor" href="#更好的逻辑复用与代码组织" aria-hidden="true">#</a> 更好的逻辑复用与代码组织</h4><p>我们都因 Vue 简单易学而爱不释手，它让构建中小型应用程序变得轻而易举。但是随着 Vue 的影响力日益扩大，许多用户也开始使用 Vue 构建更大型的项目。这些项目通常是由多个开发人员组成团队，在很长一段时间内不断迭代和维护的。多年来，我们目睹了其中一些项目遇到了 Vue 当前 API 所带来的编程模型的限制。这些问题可归纳为两类:</p><ol><li><p>随着功能的增长，复杂组件的代码变得越来越难以阅读和理解。这种情况在开发人员阅读他人编写的代码时尤为常见。根本原因是 Vue 现有的 API 迫使我们通过选项组织代码，但是有的时候通过逻辑关系组织代码更有意义。</p></li><li><p>目前缺少一种简洁且低成本的机制来提取和重用多个组件之间的逻辑。 (详见 逻辑抽象、提取与复用)</p></li></ol><p>RFC 中提出的 API 为组件代码的组织提供了更大的灵活性。现在我们不需要总是通过选项来组织代码，而是可以将代码组织为处理特定功能的函数。这些 API 还使得在组件之间甚至组件之外逻辑的提取和重用变得更加简单。我们会在设计细节这一节展示达成的效果。</p><h4 id="更好的类型推导" tabindex="-1"><a class="header-anchor" href="#更好的类型推导" aria-hidden="true">#</a> 更好的类型推导</h4><p>另一个来自大型项目开发者的常见需求是更好的 TypeScript 支持。Vue 当前的 API 在集成 TypeScript 时遇到了不小的麻烦，其主要原因是 Vue 依靠一个简单的 this 上下文来暴露 property，我们现在使用 this 的方式是比较微妙的。（比如 methods 选项下的函数的 this 是指向组件实例的，而不是这个 methods 对象）。</p><p>换句话说，Vue 现有的 API 在设计之初没有照顾到类型推导，这使适配 TypeScript 变得复杂。</p><p>当前，大部分使用 TypeScript 的 Vue 开发者都在通过 vue-class-component 这个库将组件撰写为 TypeScript class (借助 decorator)。我们在设计 3.0 时曾有一个已废弃的 RFC，希望提供一个内建的 Class API 来更好的解决类型问题。然而当讨论并迭代其具体设计时，我们注意到，想通过 Class API 来解决类型问题，就必须依赖 decorator——一个在实现细节上存在许多未知数的非常不稳定的 stage 2 提案。基于它是有极大风险的。(关于 Class API 的类型相关问题请移步这里)</p><p>相比较过后，本 RFC 中提出的方案更多地利用了天然对类型友好的普通变量与函数。用该提案中的 API 撰写的代码会完美享用类型推导，并且也不用做太多额外的类型标注。</p><p>这也同样意味着你写出的 JavaScript 代码几乎就是 TypeScript 的代码。即使是非 TypeScript 开发者也会因此得到更好的 IDE 类型支持而获益。</p><h2 id="diff算法" tabindex="-1"><a class="header-anchor" href="#diff算法" aria-hidden="true">#</a> diff算法</h2>',12),h={href:"https://github.com/vuejs/core/blob/82e3f2dc3036b553261f302538701769fa92536e/packages/runtime-core/src/renderer.ts#L1747",target:"_blank",rel:"noopener noreferrer"},p=s(`<div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>// 1. sync from start
+// (a b) c
+// (a b) d e
+// 从头到尾遍历，直到找到不一样的
+
+// 2. sync from end
+// a (b c)
+// d e (b c)
+// 从尾到头遍历，直到遇到不一样的dom
+
+// 3. common sequence + mount
+// (a b)
+// (a b) c
+// i = 2, e1 = 1, e2 = 2
+// (a b)
+// c (a b)
+// i = 0, e1 = -1, e2 = 0
+// 1 跟 2 之后，old tree遍历完，new tree剩下的新增
+
+// 4. common sequence + unmount
+// (a b) c
+// (a b)
+// i = 2, e1 = 2, e2 = 1
+// a (b c)
+// (b c)
+// i = 0, e1 = 0, e2 = -1
+// 1 跟 2 之后，new tree遍历完，old tree剩下的删除
+
+// 5. unknown sequence
+// [i ... e1 + 1]: a b [c d e] f g
+// [i ... e2 + 1]: a b [e d c h] f g
+// i = 2, e1 = 4, e2 = 5
+// 不规则序列
+
+// 5.1 build key:index map for newChildren
+// 将新 tree 剩下的 children 生成 map。
+// const keyToNewIndexMap: Map&lt;string | number | symbol, number&gt; = new Map()
+// keyToNewIndexMap.set(nextChild.key, i)
+
+// 5.2 loop through old children left to be patched and try to patch
+// matching nodes &amp; remove nodes that are no longer present
+// 遍历旧 tree 的剩下的 children，通过 key 从 keyToNewIndexMap 找出复用节点，如果存在，则 patch，否则 unmount。
+// 同时生成剩下的 new children 长度的默认值为零的数组。 const newIndexToOldIndexMap = new Array(toBePatched)，当找到复用节点时，在 newIndexToOldIndexMap 相应位置标志为非 0
+
+// 5.3 move and mount
+// 从后往前遍历 newIndexToOldIndexMap 数组，当 newIndexToOldIndexMap[i] 为 0 时，说明旧节点不存在，需 mount，不为 0 时，说明旧节点存在，需 move。
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,1),_={start:"2"},f={href:"https://github.com/vuejs/core/blob/82e3f2dc3036b553261f302538701769fa92536e/packages/runtime-core/src/renderer.ts#L1687",target:"_blank",rel:"noopener noreferrer"},x=e("p",null,"从前往后依次比较和复用",-1);function I(y,g){const i=r("ExternalLinkIcon");return l(),c("div",null,[o,e("p",null,[e("a",v,[n("参考文档"),d(i)])]),u,e("p",null,[e("a",m,[n("组合式 API 官方文档"),d(i)])]),b,e("ol",null,[e("li",null,[n("当 key 存在 "),e("a",h,[n("传送门"),d(i)])])]),p,e("ol",_,[e("li",null,[n("当 key 不存在 "),e("a",f,[n("传送门"),d(i)])])]),x])}const T=a(t,[["render",I],["__file","3.0.html.vue"]]);export{T as default};

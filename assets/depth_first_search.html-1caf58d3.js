@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-689b1d2d","path":"/algorithms/algorithms/depth_first_search.html","title":"深度优先搜索","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1703490609000,"contributors":[{"name":"zebing","email":"1270105911@qq.com","commits":1}]},"filePathRelative":"algorithms/algorithms/depth_first_search.md"}');export{t as data};

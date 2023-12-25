@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-a1e9dfde","path":"/algorithms/structure/link.html","title":"链表","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1703490609000,"contributors":[{"name":"zebing","email":"1270105911@qq.com","commits":1}]},"filePathRelative":"algorithms/structure/link.md"}');export{t as data};

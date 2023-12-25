@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-c02cc0e0","path":"/algorithms/algorithms/greedy_algorithm.html","title":"贪心算法","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1703490609000,"contributors":[{"name":"zebing","email":"1270105911@qq.com","commits":1}]},"filePathRelative":"algorithms/algorithms/greedy_algorithm.md"}');export{t as data};

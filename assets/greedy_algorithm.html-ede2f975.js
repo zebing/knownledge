@@ -1,0 +1,1 @@
+import{_ as t,p as a,q as r,R as e,t as o}from"./framework-5866ffd3.js";const c={},s=e("h1",{id:"贪心算法",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#贪心算法","aria-hidden":"true"},"#"),o(" 贪心算法")],-1),_=[s];function n(d,i){return a(),r("div",null,_)}const l=t(c,[["render",n],["__file","greedy_algorithm.html.vue"]]);export{l as default};

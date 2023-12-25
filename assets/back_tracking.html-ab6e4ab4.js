@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-532b9443","path":"/algorithms/algorithms/back_tracking.html","title":"回朔","lang":"en-US","frontmatter":{},"headers":[],"git":{"updatedTime":1703490609000,"contributors":[{"name":"zebing","email":"1270105911@qq.com","commits":1}]},"filePathRelative":"algorithms/algorithms/back_tracking.md"}');export{t as data};
