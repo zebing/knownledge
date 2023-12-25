@@ -181,10 +181,7 @@ firstBind2(1, 2) // {value: 1} 30
 **手写bind**
 
 ```
-Function.prototype.bind = function (context, ...args) {
-    if (typeof this !== 'function') {
-        throw new TypeError('Error')
-    }
+Function.prototype.bind = function (context = null, ...args) {
     //返回一个绑定this的函数，这里我们需要保存this
     const _this = this
         //返回一个函数
@@ -209,7 +206,7 @@ apply() 方法调用一个具有给定this值的函数，以及作为一个数�
 
 ```
 Function.prototype.myApply = function(context, args = []) {
-  context = context || window; // 参数默认值并不会排除null，所以重新赋值
+  context = context || {}; // 参数默认值并不会排除null，所以重新赋值
   context.fn = this; // this是调用call的函数
   const result = context.fn(...args);
   delete context.fn; // 执行后删除新增属性
@@ -225,7 +222,7 @@ call() 方法使用一个指定的 this 值和单独给出的一个或多个参�
 
 ```
 Function.prototype.myCall = function(context, ...args) {
-  context = context || window; // 参数默认值并不会排除null，所以重新赋值
+  context = context || {}; // 参数默认值并不会排除null，所以重新赋值
   context.fn = this; // this是调用call的函数
   const result = context.fn(...args);
   delete context.fn; // 执行后删除新增属性
